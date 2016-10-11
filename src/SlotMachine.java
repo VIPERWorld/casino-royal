@@ -1,31 +1,38 @@
 /**
  * Created by Willem Sherwood on 10/5/2016.
  */
+import java.util.Random;
 
 class SlotMachine {
     private Slot[] slots;
     private final int _DEFAULTNUMBERSLOTS = 3;
-    private final MaxSlots;
+    private final int _MaxSlots;
     private int currentBet = 0;
-    private final Random _RANDOMGENERATOR;
+    private Random _RandomGenerator;
 
     /**
      * Default Constructor the sets _MaxSlots to 3
      */
     public SlotMachine(){
-        buildSlots( _DEFAULTNUMBERSLOTS );
+        _MaxSlots = _DEFAULTNUMBERSLOTS;
+        buildSlots( _MaxSlots );
     }
 
     public SlotMachine(int numOfSlots){
-        buildSlots( numOfSlots );
+        _MaxSlots = numOfSlots;
+        buildSlots( _MaxSlots );
     }
 
     //Test Constructor
-    public SlotMachine(bool test){
+    public SlotMachine(boolean test){
         if( test ){
-            buildSlots( _DEFAULTNUMBERSLOTS );
-            
+            _MaxSlots = _DEFAULTNUMBERSLOTS;
+
         }
+        else{
+            _MaxSlots = 0;
+        }
+        buildSlots( _MaxSlots );
     }
 
     public void spin(){
@@ -44,7 +51,18 @@ class SlotMachine {
             addCoins(coins);
         }
     }
-    
+
+    @Override
+    public String toString(){
+        StringBuilder sB = new StringBuilder();
+        sB.append("Slot Machine: \n");
+
+        for (Slot s:slots) {
+            sB.append(s.toString()).append("\n");
+        }
+        return sB.toString();
+    }
+
     //--------------Private Methods-------------
     private void addCoins(int coins){
         currentBet += coins;
@@ -60,19 +78,19 @@ class SlotMachine {
 	   
     }
 
-    //-----------Slot Machine Factory------------
+    ///////-----------Slot Machine Factory------------
 
     private void buildSlots( int numSlots ){
         if( _MaxSlots != 0 ){
-            System.err.println(this.toString() + "_MaxSlots has already been built!!!");
-            return;                              //Break out of the function
+            System.err.println(" _MaxSlots has already been built!!!\n\n");
+            //Break out of the function
         }
 
-        _MaxSlots = numSlots;
         slots = new Slot[numSlots];
+        _RandomGenerator= new Random(0);
 
         for( int i = 0; i < numSlots; i++){
-            
+            slots[i] = new Slot(_RandomGenerator);
         }
 
     }
